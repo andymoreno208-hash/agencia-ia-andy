@@ -22,7 +22,7 @@ export default function Hero() {
         <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
           Escala tu rentabilidad con{" "}
           <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-            Alex
+            Max
           </span>
           , tu nuevo socio de IA
         </h1>
@@ -37,7 +37,7 @@ export default function Hero() {
             href="#contacto"
             className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-8 py-3.5 text-base font-semibold text-white transition-opacity hover:opacity-90"
           >
-            Conocer a Alex
+            Conocer a Max
           </a>
           <a
             href="#servicios"
