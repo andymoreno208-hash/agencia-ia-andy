@@ -20,15 +20,16 @@ export default function Hero() {
         </div>
 
         <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-          Transformamos tu negocio con{" "}
+          Escala tu rentabilidad con{" "}
           <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-            Inteligencia Artificial
+            Alex
           </span>
+          , tu nuevo socio de IA
         </h1>
 
         <p className="mx-auto mb-10 max-w-2xl text-lg text-text-secondary sm:text-xl">
-          Automatizamos procesos, reducimos costos y potenciamos la toma de
-          decisiones de tu empresa con soluciones de IA a medida.
+          Automatizamos el 80% de tus tareas operativas para que te enfoques en
+          cerrar ventas. Sin empleados extra, sin errores humanos.
         </p>
 
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -36,7 +37,7 @@ export default function Hero() {
             href="#contacto"
             className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-8 py-3.5 text-base font-semibold text-white transition-opacity hover:opacity-90"
           >
-            Agenda una consulta gratis
+            Conocer a Alex
           </a>
           <a
             href="#servicios"
