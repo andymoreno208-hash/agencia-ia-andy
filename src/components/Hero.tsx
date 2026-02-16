@@ -1,4 +1,10 @@
+"use client";
+
+import { useOpenChat } from "./ModalProvider";
+
 export default function Hero() {
+  const openChat = useOpenChat();
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-20">
       {/* Background grid pattern */}
@@ -33,12 +39,12 @@ export default function Hero() {
         </p>
 
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <a
-            href="#contacto"
+          <button
+            onClick={openChat}
             className="animate-glow rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3.5 text-base font-semibold text-white transition-transform hover:scale-105"
           >
             Conocer a Max
-          </a>
+          </button>
           <a
             href="#max-servicios"
             className="rounded-full border border-white/10 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:border-white/25"

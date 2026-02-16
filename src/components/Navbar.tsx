@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useOpenChat } from "./ModalProvider";
 
 const links = [
   { href: "#servicios", label: "Servicios" },
@@ -12,6 +13,7 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const openChat = useOpenChat();
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-md">
@@ -36,12 +38,12 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <a
-              href="#contacto"
+            <button
+              onClick={openChat}
               className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
             >
               Empezar
-            </a>
+            </button>
           </li>
         </ul>
 
@@ -92,13 +94,15 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <a
-                href="#contacto"
-                className="inline-block rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-5 py-2 text-sm font-medium text-white"
-                onClick={() => setOpen(false)}
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  openChat();
+                }}
+                className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-5 py-2 text-sm font-medium text-white"
               >
                 Empezar
-              </a>
+              </button>
             </li>
           </ul>
         </div>

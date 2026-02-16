@@ -1,4 +1,10 @@
+"use client";
+
+import { useOpenChat } from "./ModalProvider";
+
 export default function CTA() {
+  const openChat = useOpenChat();
+
   return (
     <section className="px-6 py-24">
       <div className="mx-auto max-w-4xl overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-500 p-[1px]">
@@ -10,12 +16,12 @@ export default function CTA() {
             Gana más dinero reduciendo costos operativos. Agenda una consulta
             gratuita y descubre cómo Max puede transformar tu negocio.
           </p>
-          <a
-            href="#contacto"
+          <button
+            onClick={openChat}
             className="animate-glow inline-block rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3.5 text-base font-semibold text-white transition-transform hover:scale-105"
           >
             Conocer a Max
-          </a>
+          </button>
         </div>
       </div>
     </section>
