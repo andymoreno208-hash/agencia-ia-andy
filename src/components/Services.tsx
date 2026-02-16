@@ -54,8 +54,8 @@ export default function Services() {
             </span>
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
-            Soluciones de inteligencia artificial diseñadas para impulsar el
-            crecimiento y la eficiencia de tu empresa.
+            Soluciones de IA que te ayudan a ganar más dinero reduciendo costos
+            operativos. Así potenciamos tu negocio con Max.
           </p>
         </div>
 

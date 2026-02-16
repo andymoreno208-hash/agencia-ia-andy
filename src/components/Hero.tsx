@@ -16,12 +16,12 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
         <div className="mb-6 inline-block rounded-full border border-accent-blue/30 bg-accent-blue/10 px-4 py-1.5 text-sm text-accent-blue">
-          Automatización empresarial con IA
+          Gana más dinero reduciendo costos operativos
         </div>
 
         <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
           Escala tu rentabilidad con{" "}
-          <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
             Max
           </span>
           , tu nuevo socio de IA
@@ -35,15 +35,15 @@ export default function Hero() {
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <a
             href="#contacto"
-            className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-8 py-3.5 text-base font-semibold text-white transition-opacity hover:opacity-90"
+            className="animate-glow rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3.5 text-base font-semibold text-white transition-transform hover:scale-105"
           >
             Conocer a Max
           </a>
           <a
-            href="#servicios"
+            href="#max-servicios"
             className="rounded-full border border-white/10 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:border-white/25"
           >
-            Ver servicios
+            Ver qué hace Max
           </a>
         </div>
       </div>
