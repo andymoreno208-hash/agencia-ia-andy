@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import MaxServices from "@/components/MaxServices";
 import Services from "@/components/Services";
+import Pricing from "@/components/Pricing";
 import About from "@/components/About";
 import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
@@ -16,6 +17,7 @@ export default function Home() {
       <Hero />
       <MaxServices />
       <Services />
+      <Pricing />
       <About />
       <Portfolio />
       <Testimonials />
