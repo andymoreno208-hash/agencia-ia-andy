@@ -1,26 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { useOpenChat } from "./ModalProvider";
 
 const links = [
-  { href: "#servicios", label: "Servicios" },
-  { href: "#nosotros", label: "Nosotros" },
-  { href: "#portfolio", label: "Portfolio" },
-  { href: "#testimonios", label: "Testimonios" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "#alex", label: "Alex" },
+  { href: "#planes", label: "Planes" },
+  { href: "#agendar", label: "Agendar" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const openChat = useOpenChat();
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#" className="text-xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-            Agencia
+          <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            Alex
           </span>{" "}
           IA
         </a>
@@ -38,12 +34,12 @@ export default function Navbar() {
             </li>
           ))}
           <li>
-            <button
-              onClick={openChat}
-              className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            <a
+              href="#agendar"
+              className="rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
             >
-              Empezar
-            </button>
+              Auditoría Gratis
+            </a>
           </li>
         </ul>
 
@@ -94,15 +90,13 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <button
-                onClick={() => {
-                  setOpen(false);
-                  openChat();
-                }}
-                className="rounded-full bg-gradient-to-r from-accent-blue to-accent-purple px-5 py-2 text-sm font-medium text-white"
+              <a
+                href="#agendar"
+                className="inline-block rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2 text-sm font-medium text-white"
+                onClick={() => setOpen(false)}
               >
-                Empezar
-              </button>
+                Auditoría Gratis
+              </a>
             </li>
           </ul>
         </div>

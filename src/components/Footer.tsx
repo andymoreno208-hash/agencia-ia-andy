@@ -4,8 +4,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <a href="#" className="text-xl font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-              Agencia
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+              Alex
             </span>{" "}
             IA
           </a>
@@ -13,40 +13,32 @@ export default function Footer() {
           <ul className="flex gap-6">
             <li>
               <a
-                href="#servicios"
+                href="#alex"
                 className="text-sm text-text-secondary transition-colors hover:text-white"
               >
-                Servicios
+                Alex
               </a>
             </li>
             <li>
               <a
-                href="#nosotros"
+                href="#planes"
                 className="text-sm text-text-secondary transition-colors hover:text-white"
               >
-                Nosotros
+                Planes
               </a>
             </li>
             <li>
               <a
-                href="#portfolio"
+                href="#agendar"
                 className="text-sm text-text-secondary transition-colors hover:text-white"
               >
-                Portfolio
-              </a>
-            </li>
-            <li>
-              <a
-                href="#contacto"
-                className="text-sm text-text-secondary transition-colors hover:text-white"
-              >
-                Contacto
+                Agendar
               </a>
             </li>
           </ul>
 
           <div className="text-sm text-text-secondary">
-            &copy; {new Date().getFullYear()} Agencia IA. Todos los derechos
+            &copy; {new Date().getFullYear()} Alex IA. Todos los derechos
             reservados.
           </div>
         </div>

@@ -1,21 +1,21 @@
 const testimonials = [
   {
-    name: "María González",
-    role: "CEO, TechRetail",
+    name: "Dra. Lucía Paredes",
+    role: "Directora, Clínica Dental Sonríe",
     quote:
-      "Gracias a Agencia IA, automatizamos el 70% de nuestras tareas de atención al cliente. El ROI se vio en el primer mes.",
+      "Antes perdíamos el 60% de los leads de Instagram. Desde que Alex responde en segundos, llenamos la agenda sin que mi recepcionista toque el teléfono.",
   },
   {
-    name: "Carlos Mendoza",
-    role: "Director de Operaciones, LogiPro",
+    name: "Roberto Cevallos",
+    role: "Gerente Comercial, Inmobiliaria Prado",
     quote:
-      "La implementación de IA en nuestra cadena de suministro fue impecable. Redujimos errores y costos significativamente.",
+      "Un lead de un departamento de $120K nos escribió a las 11pm. Alex lo calificó, le mostró opciones y agendó visita para las 9am. Cerramos esa venta.",
   },
   {
-    name: "Ana Ramírez",
-    role: "Fundadora, FinData",
+    name: "Valentina Ruiz",
+    role: "Fundadora, Agencia Digital Impulso",
     quote:
-      "El equipo entiende tanto de tecnología como de negocio. Nos entregaron una solución que realmente transformó nuestros procesos.",
+      "Gestiono la pauta de 8 clientes. Alex me ahorra 4 horas diarias de seguimiento y mis clientes ven más citas agendadas. Todos ganamos.",
   },
 ];
 
@@ -25,9 +25,9 @@ export default function Testimonials() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
-            Lo que dicen nuestros{" "}
-            <span className="bg-gradient-to-r from-accent-blue to-accent-purple bg-clip-text text-transparent">
-              Clientes
+            Negocios que ya{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+              dejaron de perder ventas
             </span>
           </h2>
         </div>
@@ -38,9 +38,8 @@ export default function Testimonials() {
               key={t.name}
               className="rounded-2xl border border-card-border bg-card-bg p-6"
             >
-              {/* Quote icon */}
               <svg
-                className="mb-4 h-8 w-8 text-accent-purple/40"
+                className="mb-4 h-8 w-8 text-cyan-500/40"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >

@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Agencia IA | Automatización Empresarial",
+  title: "Alex IA | Tu Socio de Ventas con Inteligencia Artificial",
   description:
-    "Transformamos tu negocio con inteligencia artificial. Automatización de procesos, chatbots, consultoría y analítica avanzada.",
+    "Alex responde en 3 segundos, filtra curiosos y agenda citas de alto valor en tu calendario. Automatización de WhatsApp para clínicas, inmobiliarias y agencias en Ecuador.",
 };
 
 export default function RootLayout({

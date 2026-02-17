@@ -1,13 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import MaxServices from "@/components/MaxServices";
-import Services from "@/components/Services";
+import PainSection from "@/components/PainSection";
+import AlexArchitecture from "@/components/AlexArchitecture";
 import Pricing from "@/components/Pricing";
-import About from "@/components/About";
-import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
-import CTA from "@/components/CTA";
-import Contact from "@/components/Contact";
+import ClosingSection from "@/components/ClosingSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -15,14 +12,11 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-      <MaxServices />
-      <Services />
+      <PainSection />
+      <AlexArchitecture />
       <Pricing />
-      <About />
-      <Portfolio />
       <Testimonials />
-      <CTA />
-      <Contact />
+      <ClosingSection />
       <Footer />
     </>
   );
