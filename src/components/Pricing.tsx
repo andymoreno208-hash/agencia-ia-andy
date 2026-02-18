@@ -3,6 +3,8 @@ const plans = [
     name: "El Filtro de Leads",
     price: 500,
     highlight: false,
+    subtitle:
+      "Setup inicial de $500 USD + $97 USD/mes (Cubre servidores, consumo de IA y mantenimiento técnico).",
     features: [
       "Alex en WhatsApp 24/7",
       "Calificación automática de leads",
@@ -15,6 +17,8 @@ const plans = [
     name: "La Oficina Autónoma",
     price: 900,
     highlight: true,
+    subtitle:
+      "Setup inicial de $900 USD + $149 USD/mes (Cubre servidores, consumo ilimitado de IA, integraciones CRM y 1 ajuste de prompt mensual).",
     features: [
       "Todo lo del plan anterior",
       "CRM completo en Airtable",
@@ -38,8 +42,8 @@ export default function Pricing() {
             </span>
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
-            Sin suscripciones sorpresa. Pagas el setup, Alex trabaja para ti
-            desde el día uno.
+            Pagas el setup y una mensualidad que cubre toda la infraestructura.
+            Alex trabaja para ti desde el día uno.
           </p>
         </div>
 
@@ -67,8 +71,8 @@ export default function Pricing() {
                   </span>
                   <span className="text-text-secondary">USD / Setup</span>
                 </div>
-                <div className="mt-1 text-sm text-text-secondary">
-                  Pago único de implementación
+                <div className="mt-2 text-sm leading-relaxed text-text-secondary">
+                  {plan.subtitle}
                 </div>
               </div>
 
@@ -105,6 +109,14 @@ export default function Pricing() {
               </a>
             </div>
           ))}
+        </div>
+
+        {/* Scarcity notice */}
+        <div className="mt-10 rounded-xl border border-yellow-500/20 bg-yellow-500/5 px-6 py-4 text-center text-sm leading-relaxed text-yellow-200/90 sm:text-base">
+          &#x26A0;&#xFE0F; Aviso de Capacidad: Para garantizar una respuesta en
+          3 segundos a todos los clientes de nuestra infraestructura, actualmente
+          solo aceptamos 4 nuevos setups por mes. Agenda tu auditoría antes de
+          que se llenen los cupos.
         </div>
       </div>
     </section>

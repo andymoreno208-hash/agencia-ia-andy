@@ -6,17 +6,17 @@ const faqs = [
   {
     question: "¿Mis clientes sentirán que hablan con un robot?",
     answer:
-      "No. Alex entiende contexto, habla de forma natural y empática, y adapta su tono a cada conversación. Tus clientes sentirán que hablan con un asesor dedicado que conoce tu negocio.",
+      "No. Usamos modelos avanzados que entienden el contexto, usan modismos locales y negocian como tu mejor vendedor. Filtramos a los curiosos para que tú solo hables con los que tienen la tarjeta en la mano.",
   },
   {
     question: "¿Qué pasa si el sistema falla?",
     answer:
-      "Tenemos una arquitectura con manejador de errores que nos notifica al instante para que tu operación no se detenga. Si algo sale de lo esperado, nuestro equipo interviene antes de que afecte a tu cliente.",
+      "Monitoreamos la infraestructura 24/7. Si un servidor de Meta o de OpenAI presenta intermitencias, el sistema te notifica instantáneamente a ti y a nuestro equipo de soporte para que un humano retome el control de ser necesario.",
   },
   {
     question: "¿Necesito saber de tecnología?",
     answer:
-      "Absolutamente nada. Nosotros configuramos, integramos y operamos todo. Tú solo ves los resultados: más citas agendadas, más ventas cerradas y menos horas perdidas.",
+      "Cero. Nosotros somos tus arquitectos técnicos. Construimos los webhooks, conectamos tu Google Calendar y tu CRM. Tú solo te encargas de recibir leads calificados y presentarte a las citas.",
   },
 ];
 
