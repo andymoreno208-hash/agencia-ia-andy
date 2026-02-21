@@ -32,7 +32,7 @@ export default function PainSection() {
             </p>
 
             <p>
-              Las clínicas, inmobiliarias y agencias que ya trabajan con Alex
+              Las clínicas, inmobiliarias y agencias que ya operan con Vanguard
               responden en{" "}
               <span className="font-semibold text-cyan-400">3 segundos</span>,
               califican al lead automáticamente y agendan la cita antes de que el

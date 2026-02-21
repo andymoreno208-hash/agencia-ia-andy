@@ -14,9 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alex IA | Tu Socio de Ventas con Inteligencia Artificial",
+  title: "Vanguard Scale | Infraestructura IA que Escala tu Operación Comercial",
   description:
-    "Alex responde en 3 segundos, filtra curiosos y agenda citas de alto valor en tu calendario. Automatización de WhatsApp para clínicas, inmobiliarias y agencias en Ecuador.",
+    "Vanguard responde en 3 segundos, filtra curiosos y agenda citas de alto valor en tu calendario. Automatización de WhatsApp con IA para clínicas, inmobiliarias y agencias.",
+  openGraph: {
+    title: "Vanguard Scale | Infraestructura IA que Escala tu Operación Comercial",
+    description:
+      "Vanguard responde en 3 segundos, filtra curiosos y agenda citas de alto valor. Automatización de WhatsApp con IA.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vanguard Scale | Infraestructura IA que Escala tu Operación Comercial",
+    description:
+      "Vanguard responde en 3 segundos, filtra curiosos y agenda citas de alto valor. Automatización de WhatsApp con IA.",
+  },
 };
 
 export default function RootLayout({

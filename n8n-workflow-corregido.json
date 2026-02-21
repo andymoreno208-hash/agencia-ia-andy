@@ -1,0 +1,474 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lemon-squeezy-webhook",
+        "options": {}
+      },
+      "name": "Webhook Lemon Squeezy",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        320,
+        208
+      ],
+      "id": "fec3eede-0ff4-4c5e-8b2c-186b8635a571",
+      "webhookId": "9d878ed3-84fb-4485-b136-fc24aa0861ff"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Webhook Lemon Squeezy\"].json[\"body\"][\"meta\"][\"event_name\"]}}",
+              "value2": "order_created"
+            },
+            {
+              "value1": "={{ $json.body.data.attributes.first_order_item.product_name }}",
+              "operation": "contains",
+              "value2": "Setup"
+            }
+          ]
+        }
+      },
+      "name": "Es un Pago Nuevo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        544,
+        208
+      ],
+      "id": "edf2ee29-df79-4616-a3b1-bb437e363be9"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "base": {
+          "__rl": true,
+          "value": "appLLgMrVXjhCJ0CJ",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBCCrqzOdbFTWeI",
+          "mode": "list",
+          "cachedResultName": "Clientes - Alex Scale",
+          "cachedResultUrl": "https://airtable.com/appLLgMrVXjhCJ0CJ/tblBCCrqzOdbFTWeI"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Webhook Lemon Squeezy').item.json.body.data.attributes.user_email }}",
+            "Nombre": "={{ $('Webhook Lemon Squeezy').item.json.body.data.attributes.user_name }}",
+            "Telefono": "=",
+            "Estatus": "Activo",
+            "Fecha de Inicio": "={{ $today }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Telefono",
+              "displayName": "Telefono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estatus",
+              "displayName": "Estatus",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Activo",
+                  "value": "Activo"
+                },
+                {
+                  "name": "Pausado",
+                  "value": "Pausado"
+                },
+                {
+                  "name": "Cancelado",
+                  "value": "Cancelado"
+                },
+                {
+                  "name": "Pago Pendiente",
+                  "value": "Pago Pendiente"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha de Inicio",
+              "displayName": "Fecha de Inicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Valor Total",
+              "displayName": "Valor Total",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Finanzas",
+              "displayName": "Finanzas",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "name": "Actualizar CRM Alex Scale",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2,
+      "position": [
+        768,
+        112
+      ],
+      "id": "db952348-a41c-4fd4-8dc1-2043fb892e82",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "kRxbduwLNth6T3YR",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": "=bkNB87CuT-wSbvl1JPezK",
+        "options": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "id_cliente",
+                "value": "={{ $node[\"Actualizar CRM Alex Scale\"].json.id }}"
+              },
+              {
+                "name": "concepto",
+                "value": "={{ $('Webhook Lemon Squeezy').item.json.body.data.attributes.first_order_item.product_name }}"
+              },
+              {
+                "name": "id_transaccion",
+                "value": "={{ $('Webhook Lemon Squeezy').item.json.body.data.id }}"
+              }
+            ]
+          }
+        }
+      },
+      "name": "Ejecutar Subflujo Rentabilidad",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        208
+      ],
+      "id": "edb5f8c1-a11f-4f4c-864d-ab73b0db4418"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook Lemon Squeezy').item.json.body.data.attributes.user_email }}",
+        "subject": "🚀 Tu Acceso Oficial: Alex Scale (Acción Requerida)",
+        "message": "=<p>Hola <strong>{{ $node[\"Webhook Lemon Squeezy\"].json.body.data.attributes.user_name }}</strong>,</p>\n\n<p>¡Bienvenido a bordo! Tu inversión de <strong>$500</strong> para el Setup de Alex Scale está confirmada. 🦄</p>\n\n<p>Para evitar el spam y garantizarte soporte prioritario, nuestro sistema requiere que inicies la conexión segura.</p>\n\n<p>👉 <strong><a href=\"https://wa.me/593959916032?text=w50644247\">HAZ CLIC AQUÍ PARA ACTIVAR TU SETUP EN WHATSAPP</a></strong></p>\n\n<p>Al hacer clic, se abrirá tu WhatsApp. Solo envía el mensaje pre-cargado y nuestro bot iniciará tu onboarding automáticamente.</p>\n\n<p>Nos vemos dentro,<br>\n<strong>Andy - Alex Scale</strong></p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1420,
+        16
+      ],
+      "id": "f38cf34d-4a99-4792-9580-056511805a4d",
+      "name": "Send a message",
+      "webhookId": "2731ee40-f058-43cd-a505-cdc9f29f4076",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "iTiIC8izpv23KIS2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appLLgMrVXjhCJ0CJ",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblbrCkrORxFMjsaW",
+          "mode": "list",
+          "cachedResultName": "Finanzas",
+          "cachedResultUrl": "https://airtable.com/appLLgMrVXjhCJ0CJ/tblbrCkrORxFMjsaW"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ingreso": "={{ $node[\"Webhook Lemon Squeezy\"].json.body.data.attributes.total / 100 }}",
+            "Concepto": "={{ $('Webhook Lemon Squeezy').item.json.body.data.attributes.first_order_item.product_name }}",
+            "ID Transaccion": "={{ $('Webhook Lemon Squeezy').item.json.body.data.id }}",
+            "Comprobante": "=",
+            "Fecha Pago": "={{ $today }}",
+            "Cliente Relacionado": "={{ [$node[\"Actualizar CRM Alex Scale\"].json.id] }}",
+            "Comision": 0,
+            "Neto": 0
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "Concepto",
+              "displayName": "Concepto",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Ingreso",
+              "displayName": "Ingreso",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ID Transaccion",
+              "displayName": "ID Transaccion",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha Pago",
+              "displayName": "Fecha Pago",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Comprobante",
+              "displayName": "Comprobante",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Cliente Relacionado",
+              "displayName": "Cliente Relacionado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email (from Cliente Relacionado)",
+              "displayName": "Email (from Cliente Relacionado)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Estatus (from Cliente Relacionado)",
+              "displayName": "Estatus (from Cliente Relacionado)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Comision",
+              "displayName": "Comision",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Neto",
+              "displayName": "Neto",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1192,
+        112
+      ],
+      "id": "d8b93a7f-be44-4f38-823d-feb559c3f2a7",
+      "name": "Registrar Pago Finanzas",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "kRxbduwLNth6T3YR",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Lemon Squeezy": {
+      "main": [
+        [
+          {
+            "node": "Es un Pago Nuevo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es un Pago Nuevo?": {
+      "main": [
+        [
+          {
+            "node": "Actualizar CRM Alex Scale",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Actualizar CRM Alex Scale": {
+      "main": [
+        [
+          {
+            "node": "Registrar Pago Finanzas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar Pago Finanzas": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Ejecutar Subflujo Rentabilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "89f5997f813e0572e65ea089c7a8126faae05f0d4eca04c0eca21d66bd1014e4"
+  }
+}

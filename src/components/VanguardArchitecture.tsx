@@ -22,7 +22,7 @@ const benefits = [
   {
     title: "Persecución Implacable",
     description:
-      "Retoma la conversación automáticamente con los leads que dejaron de responder. Alex hace follow-up inteligente hasta cerrar la cita o descartar al curioso.",
+      "Retoma la conversación automáticamente con los leads que dejaron de responder. Vanguard ejecuta follow-up sistemático hasta cerrar la cita o descartar al curioso.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -31,20 +31,20 @@ const benefits = [
   },
 ];
 
-export default function AlexArchitecture() {
+export default function VanguardArchitecture() {
   return (
-    <section id="alex" className="px-6 py-24">
+    <section id="vanguard" className="px-6 py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
             La arquitectura de{" "}
             <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              Alex
+              Vanguard
             </span>
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
-            No es un chatbot genérico. Alex es un sistema de ventas autónomo que
-            trabaja las 24 horas para que tú cierres más y operes menos.
+            No es un chatbot genérico. Vanguard es infraestructura de ventas autónoma
+            que opera las 24 horas para que tú cierres más y operes menos.
           </p>
         </div>
 

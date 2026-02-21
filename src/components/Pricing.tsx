@@ -6,7 +6,7 @@ const plans = [
     subtitle:
       "Setup inicial de $500 USD + $97 USD/mes (Cubre servidores, consumo de IA y mantenimiento técnico).",
     features: [
-      "Alex en WhatsApp 24/7",
+      "Vanguard en WhatsApp 24/7",
       "Calificación automática de leads",
       "Filtrado de curiosos vs. compradores",
       "Sincronización básica con CRM",
@@ -43,7 +43,7 @@ export default function Pricing() {
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
             Pagas el setup y una mensualidad que cubre toda la infraestructura.
-            Alex trabaja para ti desde el día uno.
+            Vanguard opera para ti desde el día uno.
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export default function Pricing() {
                     : "border border-white/10 text-white hover:border-white/25"
                 }`}
               >
-                Agendar Implementación
+                Solicitar Implementación
               </a>
             </div>
           ))}

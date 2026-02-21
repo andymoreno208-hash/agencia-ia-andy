@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ROICalculator from "@/components/ROICalculator";
 import PainSection from "@/components/PainSection";
-import AlexArchitecture from "@/components/AlexArchitecture";
+import VanguardArchitecture from "@/components/VanguardArchitecture";
 import Pricing from "@/components/Pricing";
 import Testimonials from "@/components/Testimonials";
 import ClosingSection from "@/components/ClosingSection";
@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       <ROICalculator />
       <PainSection />
-      <AlexArchitecture />
+      <VanguardArchitecture />
       <Pricing />
       <Testimonials />
       <ClosingSection />

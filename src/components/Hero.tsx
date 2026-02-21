@@ -24,16 +24,16 @@ export default function Hero() {
         </h1>
 
         <p className="mx-auto mb-10 max-w-2xl text-lg text-text-secondary sm:text-xl">
-          Conoce a Alex, tu nuevo socio de IA. Responde en 3 segundos, filtra a
-          los curiosos y agenda citas de alto valor directamente en tu
-          calendario. 24/7.
+          Vanguard es la infraestructura de IA que responde en 3 segundos,
+          filtra curiosos y agenda citas de alto valor directamente en tu
+          calendario. Sin intervención humana. 24/7.
         </p>
 
         <a
           href="#agendar"
           className="animate-glow inline-block rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-4 text-base font-semibold text-white transition-transform hover:scale-105 sm:text-lg"
         >
-          Agendar mi Auditoría de Rentabilidad (15 min)
+          Solicitar Auditoría de Rentabilidad (15 min)
         </a>
       </div>
     </section>

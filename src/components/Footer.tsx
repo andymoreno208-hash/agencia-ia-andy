@@ -5,18 +5,18 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <a href="#" className="text-xl font-bold tracking-tight">
             <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              Alex
+              Vanguard
             </span>{" "}
-            IA
+            Scale
           </a>
 
           <ul className="flex gap-6">
             <li>
               <a
-                href="#alex"
+                href="#vanguard"
                 className="text-sm text-text-secondary transition-colors hover:text-white"
               >
-                Alex
+                Vanguard
               </a>
             </li>
             <li>
@@ -38,7 +38,7 @@ export default function Footer() {
           </ul>
 
           <div className="text-sm text-text-secondary">
-            &copy; {new Date().getFullYear()} Alex IA. Todos los derechos
+            &copy; {new Date().getFullYear()} Vanguard Scale. Todos los derechos
             reservados.
           </div>
         </div>
