@@ -180,7 +180,7 @@ export default function ChatModal({ open, onClose }: ChatModalProps) {
         ) : (
           <div className="flex items-center justify-center border-t border-white/5 bg-[#0a0a14] px-4 py-3">
             <a
-              href="https://wa.me/593959916032?text=Hola,%20vengo%20de%20Vanguard%20Scale%20y%20quiero%20agendar%20mi%20auditor%C3%ADa%20de%20rentabilidad"
+              href="https://wa.me/593959915414?text=Hola%20Andy,%20quiero%20escalar%20mi%20facturación%20con%20IA."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105"

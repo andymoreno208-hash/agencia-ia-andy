@@ -102,7 +102,7 @@ export default function ROICalculator() {
           {/* CTA */}
           <div className="mt-8 text-center">
             <a
-              href="https://wa.me/593959916032?text=Hola,%20quiero%20ver%20como%20Vanguard%20califica%20leads"
+              href="https://wa.me/593959915414?text=Hola%20Andy,%20quiero%20escalar%20mi%20facturación%20con%20IA."
               target="_blank"
               rel="noopener noreferrer"
               className="animate-glow inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-4 text-base font-semibold text-white transition-transform hover:scale-105"
