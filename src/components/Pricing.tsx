@@ -9,12 +9,13 @@ const plans = [
       "Vanguard en WhatsApp 24/7",
       "Calificación automática de leads",
       "Filtrado de curiosos vs. compradores",
-      "Sincronización básica con CRM",
+     "Sincronización básica con CRM",
       "Respuesta en 3 segundos",
     ],
   },
   {
     name: "La Oficina Autónoma",
+    
     price: 900,
     highlight: true,
     subtitle:
