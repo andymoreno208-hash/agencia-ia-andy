@@ -26,7 +26,7 @@ export default function Testimonials() {
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
             Operaciones que ya{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               escalaron con Vanguard
             </span>
           </h2>
@@ -45,12 +45,12 @@ export default function Testimonials() {
               >
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151C7.546 6.068 5.983 8.789 5.983 11h4v10H0z" />
               </svg>
-              <p className="mb-6 leading-relaxed text-text-secondary">
+              <p className="mb-6 leading-relaxed text-white/80">
                 &ldquo;{t.quote}&rdquo;
               </p>
               <div>
                 <div className="font-semibold">{t.name}</div>
-                <div className="text-sm text-text-secondary">{t.role}</div>
+                <div className="text-sm text-white/80">{t.role}</div>
               </div>
             </div>
           ))}

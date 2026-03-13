@@ -1,8 +1,8 @@
-const maxServices = [
+const vanguardServices = [
   {
     title: "Ventas en Piloto Automático",
     description:
-      "Chatbots con IA que califican leads y cierran ventas 24/7. Max trabaja mientras tú descansas.",
+      "Chatbots con IA que califican leads y cierran ventas 24/7. Vanguard trabaja mientras tú descansas.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -12,7 +12,7 @@ const maxServices = [
   {
     title: "Agendamiento Inteligente",
     description:
-      "Sincronización total con calendarios para que Max agende tus citas sin que muevas un dedo.",
+      "Sincronización total con calendarios para que Vanguard agende tus citas sin que muevas un dedo.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -31,26 +31,26 @@ const maxServices = [
   },
 ];
 
-export default function MaxServices() {
+export default function VanguardServices() {
   return (
-    <section id="max-servicios" className="px-6 py-24">
+    <section id="vanguard-servicios" className="px-6 py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
             ¿Qué puede hacer{" "}
             <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              Max
+              Vanguard
             </span>{" "}
             por tu negocio?
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
-            Max es tu socio de IA que trabaja 24/7 para que ganes más dinero
+            Vanguard es tu socio de IA que trabaja 24/7 para que ganes más dinero
             reduciendo costos operativos.
           </p>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {maxServices.map((service) => (
+          {vanguardServices.map((service) => (
             <div
               key={service.title}
               className="group rounded-2xl border border-card-border bg-card-bg p-8 transition-all hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5"

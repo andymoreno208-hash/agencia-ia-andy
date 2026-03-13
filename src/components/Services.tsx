@@ -55,7 +55,7 @@ export default function Services() {
           </h2>
           <p className="mx-auto max-w-2xl text-text-secondary">
             Soluciones de IA que te ayudan a ganar más dinero reduciendo costos
-            operativos. Así potenciamos tu negocio con Max.
+            operativos. Así potenciamos tu negocio con Vanguard Scale.
           </p>
         </div>
 

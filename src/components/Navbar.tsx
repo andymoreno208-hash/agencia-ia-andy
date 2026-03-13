@@ -3,9 +3,14 @@
 import { useState } from "react";
 
 const links = [
-  { href: "#vanguard", label: "Vanguard" },
+  { href: "#super-flujo", label: "El Súper Flujo" },
+  { href: "#resultados", label: "Resultados" },
   { href: "#planes", label: "Planes" },
-  { href: "#agendar", label: "Agendar" },
+  {
+    href: "https://calendly.com/andymoreno208/30min",
+    label: "Agendar",
+    external: true,
+  },
 ];
 
 export default function Navbar() {
@@ -15,7 +20,7 @@ export default function Navbar() {
     <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#" className="text-xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             Vanguard
           </span>{" "}
           Scale
@@ -27,7 +32,10 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm text-text-secondary transition-colors hover:text-white"
+                {...("external" in link && link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+                className="text-sm text-white/80 transition-colors hover:text-white"
               >
                 {link.label}
               </a>
@@ -35,10 +43,12 @@ export default function Navbar() {
           ))}
           <li>
             <a
-              href="#agendar"
-              className="rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              href="https://calendly.com/andymoreno208/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-primary rounded-full px-5 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
             >
-              Auditoría Gratis
+              Agendar Auditoría de Escalamiento
             </a>
           </li>
         </ul>
@@ -82,7 +92,10 @@ export default function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-sm text-text-secondary transition-colors hover:text-white"
+                  {...("external" in link && link.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="text-sm text-white/80 transition-colors hover:text-white"
                   onClick={() => setOpen(false)}
                 >
                   {link.label}
@@ -91,13 +104,15 @@ export default function Navbar() {
             ))}
             <li>
               <a
-                href="#agendar"
-                className="inline-block rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2 text-sm font-medium text-white"
+                href="https://calendly.com/andymoreno208/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-primary inline-block rounded-full px-5 py-2 text-sm font-medium text-white"
                 onClick={() => setOpen(false)}
               >
-                Auditoría Gratis
+                Agendar Auditoría de Escalamiento
               </a>
-            </li>
+          </li>
           </ul>
         </div>
       )}

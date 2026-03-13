@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <a href="#" className="text-xl font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               Vanguard
             </span>{" "}
             Scale
@@ -13,31 +13,41 @@ export default function Footer() {
           <ul className="flex gap-6">
             <li>
               <a
-                href="#vanguard"
-                className="text-sm text-text-secondary transition-colors hover:text-white"
+                href="#super-flujo"
+                className="text-sm text-white/70 transition-colors hover:text-white"
               >
-                Vanguard
+                El Súper Flujo
+              </a>
+            </li>
+            <li>
+              <a
+                href="#resultados"
+                className="text-sm text-white/70 transition-colors hover:text-white"
+              >
+                Resultados
               </a>
             </li>
             <li>
               <a
                 href="#planes"
-                className="text-sm text-text-secondary transition-colors hover:text-white"
+                className="text-sm text-white/70 transition-colors hover:text-white"
               >
                 Planes
               </a>
             </li>
             <li>
               <a
-                href="#agendar"
-                className="text-sm text-text-secondary transition-colors hover:text-white"
+                href="https://calendly.com/andymoreno208/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-white/70 transition-colors hover:text-white"
               >
-                Agendar
+                Agendar Auditoría de Escalamiento
               </a>
             </li>
           </ul>
 
-          <div className="text-sm text-text-secondary">
+          <div className="text-sm text-white/70">
             &copy; {new Date().getFullYear()} Vanguard Scale. Todos los derechos
             reservados.
           </div>

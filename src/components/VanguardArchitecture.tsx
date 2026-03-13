@@ -1,31 +1,37 @@
-const benefits = [
+const superFlujoPilares = [
   {
-    title: "CRM Automático",
+    numero: "01",
+    title: "Inyector RAG",
+    subtitle: "Memoria Perfecta",
     description:
-      "Guarda el perfil completo y presupuesto del lead en Airtable sin tocar el teclado. Nombre, empresa, necesidad y nivel de urgencia, todo organizado automáticamente.",
+      "Tu infraestructura aprende de cada documento, FAQ y caso de éxito. RAG multi-tenant garantiza que cada cliente corporativo tenga su base de conocimiento aislada. Cero confusión entre inmobiliarias, clínicas o agencias.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
       </svg>
     ),
   },
   {
-    title: "Agendamiento Inteligente",
+    numero: "02",
+    title: "Reloj Maestro",
+    subtitle: "Cero No-Shows",
     description:
-      "Lee tu Google Calendar en tiempo real y agenda o cancela citas sin intervención humana. El prospecto elige horario y recibe confirmación instantánea.",
+      "Integración nativa con Google Calendar. El flujo lee tu disponibilidad en tiempo real, envía recordatorios automáticos y rellena huecos con reagendamientos inteligentes. Tu agenda se optimiza sola.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
   },
   {
-    title: "Persecución Implacable",
+    numero: "03",
+    title: "Dóberman de Ventas",
+    subtitle: "Calificación Implacable",
     description:
-      "Retoma la conversación automáticamente con los leads que dejaron de responder. Vanguard ejecuta follow-up sistemático hasta cerrar la cita o descartar al curioso.",
+      "Preguntas de poder, detección de presupuesto y urgencia. El bot filtra curiosos antes de que consuman tu tiempo. Solo los prospectos calificados llegan a tu calendario. Eficiencia operativa brutal.",
     icon: (
       <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
   },
@@ -33,34 +39,44 @@ const benefits = [
 
 export default function VanguardArchitecture() {
   return (
-    <section id="vanguard" className="px-6 py-24">
+    <section id="super-flujo" className="px-6 py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold sm:text-4xl">
-            La arquitectura de{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-              Vanguard
+          <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
+            El{" "}
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              Súper Flujo
             </span>
           </h2>
-          <p className="mx-auto max-w-2xl text-text-secondary">
-            No es un chatbot genérico. Vanguard es infraestructura de ventas autónoma
-            que opera las 24 horas para que tú cierres más y operes menos.
+          <p className="mx-auto max-w-2xl text-lg text-white/80">
+            Tres pilares técnicos que convierten tu WhatsApp en una máquina de
+            ventas B2B autónoma. Infraestructura multi-tenant lista para escalar.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {benefits.map((b) => (
+          {superFlujoPilares.map((pilar) => (
             <div
-              key={b.title}
-              className="group rounded-2xl border border-card-border bg-card-bg p-8 transition-all hover:border-cyan-500/30 hover:shadow-lg hover:shadow-cyan-500/5"
+              key={pilar.title}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-card-bg p-8 transition-all hover:border-cyan-500/40 hover:shadow-[0_0_30px_rgba(0,217,255,0.1)]"
             >
-              <div className="mb-5 inline-flex rounded-xl bg-gradient-to-br from-blue-600/10 to-cyan-500/10 p-3 text-cyan-400">
-                {b.icon}
+              <div className="absolute right-4 top-4 text-5xl font-bold text-white/5">
+                {pilar.numero}
               </div>
-              <h3 className="mb-3 text-xl font-semibold">{b.title}</h3>
-              <p className="text-sm leading-relaxed text-text-secondary">
-                {b.description}
-              </p>
+              <div className="relative">
+                <div className="mb-5 inline-flex rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 p-3 text-cyan-400 ring-1 ring-cyan-500/20">
+                  {pilar.icon}
+                </div>
+                <h3 className="mb-1 text-xl font-bold text-white">
+                  {pilar.title}
+                </h3>
+                <p className="mb-4 text-sm font-medium text-cyan-400">
+                  {pilar.subtitle}
+                </p>
+                <p className="text-sm leading-relaxed text-white/80">
+                  {pilar.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

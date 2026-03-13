@@ -53,7 +53,7 @@
           "__rl": true,
           "value": "tblBCCrqzOdbFTWeI",
           "mode": "list",
-          "cachedResultName": "Clientes - Alex Scale",
+          "cachedResultName": "Clientes - Vanguard Scale",
           "cachedResultUrl": "https://airtable.com/appLLgMrVXjhCJ0CJ/tblBCCrqzOdbFTWeI"
         },
         "columns": {
@@ -182,7 +182,7 @@
           "typecast": true
         }
       },
-      "name": "Actualizar CRM Alex Scale",
+      "name": "Actualizar CRM Vanguard Scale",
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2,
       "position": [
@@ -205,7 +205,7 @@
             "values": [
               {
                 "name": "id_cliente",
-                "value": "={{ $node[\"Actualizar CRM Alex Scale\"].json.id }}"
+                "value": "={{ $node[\"Actualizar CRM Vanguard Scale\"].json.id }}"
               },
               {
                 "name": "concepto",
@@ -231,8 +231,8 @@
     {
       "parameters": {
         "sendTo": "={{ $('Webhook Lemon Squeezy').item.json.body.data.attributes.user_email }}",
-        "subject": "🚀 Tu Acceso Oficial: Alex Scale (Acción Requerida)",
-        "message": "=<p>Hola <strong>{{ $node[\"Webhook Lemon Squeezy\"].json.body.data.attributes.user_name }}</strong>,</p>\n\n<p>¡Bienvenido a bordo! Tu inversión de <strong>$500</strong> para el Setup de Alex Scale está confirmada. 🦄</p>\n\n<p>Para evitar el spam y garantizarte soporte prioritario, nuestro sistema requiere que inicies la conexión segura.</p>\n\n<p>👉 <strong><a href=\"https://wa.me/593959916032?text=w50644247\">HAZ CLIC AQUÍ PARA ACTIVAR TU SETUP EN WHATSAPP</a></strong></p>\n\n<p>Al hacer clic, se abrirá tu WhatsApp. Solo envía el mensaje pre-cargado y nuestro bot iniciará tu onboarding automáticamente.</p>\n\n<p>Nos vemos dentro,<br>\n<strong>Andy - Alex Scale</strong></p>",
+        "subject": "🚀 Tu Acceso Oficial: Vanguard Scale (Acción Requerida)",
+        "message": "=<p>Hola <strong>{{ $node[\"Webhook Lemon Squeezy\"].json.body.data.attributes.user_name }}</strong>,</p>\n\n<p>¡Bienvenido a bordo! Tu inversión de <strong>$500</strong> para el Setup de Vanguard Scale está confirmada. 🦄</p>\n\n<p>Para evitar el spam y garantizarte soporte prioritario, nuestro sistema requiere que inicies la conexión segura.</p>\n\n<p>👉 <strong><a href=\"https://wa.me/593959915414?text=w50644247\">HAZ CLIC AQUÍ PARA ACTIVAR TU SETUP EN WHATSAPP</a></strong></p>\n\n<p>Al hacer clic, se abrirá tu WhatsApp. Solo envía el mensaje pre-cargado y nuestro bot iniciará tu onboarding automáticamente.</p>\n\n<p>Nos vemos dentro,<br>\n<strong>Andy - Vanguard Scale</strong></p>",
         "options": {}
       },
       "type": "n8n-nodes-base.gmail",
@@ -274,7 +274,7 @@
             "ID Transaccion": "={{ $('Webhook Lemon Squeezy').item.json.body.data.id }}",
             "Comprobante": "=",
             "Fecha Pago": "={{ $today }}",
-            "Cliente Relacionado": "={{ [$node[\"Actualizar CRM Alex Scale\"].json.id] }}",
+            "Cliente Relacionado": "={{ [$node[\"Actualizar CRM Vanguard Scale\"].json.id] }}",
             "Comision": 0,
             "Neto": 0
           },
@@ -430,7 +430,7 @@
       "main": [
         [
           {
-            "node": "Actualizar CRM Alex Scale",
+            "node": "Actualizar CRM Vanguard Scale",
             "type": "main",
             "index": 0
           }
@@ -438,7 +438,7 @@
         []
       ]
     },
-    "Actualizar CRM Alex Scale": {
+    "Actualizar CRM Vanguard Scale": {
       "main": [
         [
           {

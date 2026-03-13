@@ -1,0 +1,354 @@
+{
+  "name": "SÚPER FLUJO SAAS B2B MULTI-TENANT",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chat-inbound",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-inbound",
+      "name": "Webhook Inbound",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 400],
+      "webhookId": "super-flujo-chat-inbound"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "=SELECT system_prompt, supabase_filter FROM tenant_config WHERE tenant_id = '{{ $json.body.tenant_id }}' LIMIT 1",
+        "options": {}
+      },
+      "id": "postgres-tenant-config",
+      "name": "Postgres Tenant Config",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [460, 400],
+      "credentials": {
+        "postgres": {
+          "id": "POSTGRES_CREDENTIAL_ID",
+          "name": "Supabase/Postgres"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "text-assign",
+              "name": "text",
+              "value": "={{ $('Webhook Inbound').first().json.body.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "sessionkey-assign",
+              "name": "sessionKey",
+              "value": "={{ $('Webhook Inbound').first().json.body.session_id }}",
+              "type": "string"
+            },
+            {
+              "id": "system-prompt-assign",
+              "name": "system_prompt",
+              "value": "={{ $json.system_prompt }}",
+              "type": "string"
+            },
+            {
+              "id": "supabase-filter-assign",
+              "name": "supabase_filter",
+              "value": "={{ $json.supabase_filter }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-normalizer",
+      "name": "Set Normalizer",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "hasOutputParser": false,
+        "options": {
+          "systemMessage": "={{ $json.system_prompt }}",
+          "maxIterations": 10
+        }
+      },
+      "id": "ai-agent",
+      "name": "AI Agent",
+      "type": "n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 4096
+        }
+      },
+      "id": "openai-chat-model",
+      "name": "OpenAI Chat Model",
+      "type": "n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [900, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionKey": "={{ $json.sessionKey }}",
+        "contextWindowLength": 10,
+        "sessionIdType": "customKey",
+        "ttl": 86400
+      },
+      "id": "redis-memory",
+      "name": "Redis Chat Memory",
+      "type": "n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.2,
+      "position": [900, 600],
+      "credentials": {
+        "redis": {
+          "id": "REDIS_CREDENTIAL_ID",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve",
+        "tableName": "documents",
+        "topK": 5,
+        "options": {
+          "metadataFilter": "={{ $json.supabase_filter }}"
+        }
+      },
+      "id": "supabase-vector-store",
+      "name": "Supabase Vector Store",
+      "type": "n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [1100, 100],
+      "credentials": {
+        "supabaseApi": {
+          "id": "SUPABASE_CREDENTIAL_ID",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-small",
+        "dimensions": 1536
+      },
+      "id": "openai-embeddings",
+      "name": "OpenAI Embeddings",
+      "type": "n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [1100, 280],
+      "credentials": {
+        "openAiApi": {
+          "id": "OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Usa esta herramienta cuando el usuario quiera agendar una cita, reunión o evento. Pasa el session_id para identificar la sesión del usuario.",
+        "workflowId": {
+          "__rl": true,
+          "value": "SUBFLUJO_AGENDAR_ID",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "session_id",
+              "value": "={{ $json.sessionKey }}"
+            }
+          ]
+        }
+      },
+      "id": "tool-workflow-agendar",
+      "name": "Tool Workflow Agendar",
+      "type": "n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [1100, 400]
+    },
+    {
+      "parameters": {
+        "description": "Usa esta herramienta cuando el usuario requiera hablar con un humano, solicite derivación a atención humana, o esté insatisfecho con la atención del bot.",
+        "workflowId": {
+          "__rl": true,
+          "value": "SUBFLUJO_DERIVAR_ID",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "session_id",
+              "value": "={{ $json.sessionKey }}"
+            }
+          ]
+        }
+      },
+      "id": "tool-workflow-derivar",
+      "name": "Tool Workflow Derivar",
+      "type": "n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [1100, 520]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ output: $json.output, session_id: $('Set Normalizer').first().json.sessionKey }) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1120, 400]
+    }
+  ],
+  "connections": {
+    "Webhook Inbound": {
+      "main": [
+        [
+          {
+            "node": "Postgres Tenant Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Tenant Config": {
+      "main": [
+        [
+          {
+            "node": "Set Normalizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Normalizer": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Embeddings": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool Workflow Agendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool Workflow Derivar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
