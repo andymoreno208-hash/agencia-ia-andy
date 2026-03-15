@@ -99,21 +99,22 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 shadow-inner">
-                <p className="mb-4 text-center text-sm font-semibold leading-relaxed text-emerald-200">
+              {/* Caja riesgo cero: justo encima del botón */}
+              <div className="mb-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 shadow-inner">
+                <p className="text-center text-sm font-semibold leading-relaxed text-emerald-200">
                   Inversión con Riesgo Cero: El costo de esta auditoría se descuenta íntegramente de tu setup final si decides implementar con nosotros.
                 </p>
-                <a
-                  href="#agendar"
-                  className={`block w-full rounded-full py-3.5 text-center text-sm font-semibold transition-transform hover:scale-[1.02] ${
-                    plan.highlight
-                      ? "animate-glow bg-gradient-to-r from-blue-600 to-cyan-500 text-white"
-                      : "border border-white/10 text-white hover:border-white/25"
-                  }`}
-                >
-                  Agendar Auditoría ($500)
-                </a>
               </div>
+              <a
+                href="#agendar"
+                className={`block w-full rounded-full py-3.5 text-center text-sm font-semibold transition-transform hover:scale-[1.02] ${
+                  plan.highlight
+                    ? "animate-glow bg-gradient-to-r from-blue-600 to-cyan-500 text-white"
+                    : "border border-white/10 text-white hover:border-white/25"
+                }`}
+              >
+                Agendar Auditoría ($500)
+              </a>
             </div>
           ))}
         </div>
