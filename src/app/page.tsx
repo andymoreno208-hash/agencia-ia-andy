@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ScreenshotCards from "@/components/ScreenshotCards";
 import ROICalculator from "@/components/ROICalculator";
 import PainSection from "@/components/PainSection";
 import VanguardArchitecture from "@/components/VanguardArchitecture";
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <ScreenshotCards />
       <ROICalculator />
       <PainSection />
       <VanguardArchitecture />

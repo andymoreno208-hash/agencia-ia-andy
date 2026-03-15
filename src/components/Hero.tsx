@@ -1,3 +1,6 @@
+// Reemplaza con tu ID de Loom (ej: d4f8a2b3c1e5)
+const LOOM_VIDEO_ID = process.env.NEXT_PUBLIC_LOOM_VIDEO_ID || "VIDEO_ID";
+
 export default function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-20">
@@ -28,6 +31,21 @@ export default function Hero() {
           filtra curiosos y agenda citas de alto valor directamente en tu
           calendario. Sin intervención humana. 24/7.
         </p>
+
+        {/* Loom video */}
+        <div className="mx-auto mb-10 max-w-3xl overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-2xl shadow-cyan-500/10">
+          <div className="relative aspect-video">
+            <iframe
+              src={`https://www.loom.com/embed/${LOOM_VIDEO_ID}?hide_owner=true&hide_share=true`}
+              allowFullScreen
+              className="absolute inset-0 h-full w-full"
+              title="Video demostrativo Vanguard"
+            />
+          </div>
+          <p className="border-t border-white/5 px-4 py-2 text-center text-sm text-text-secondary">
+            Cómo funciona en 2 minutos
+          </p>
+        </div>
 
         <a
           href="#agendar"
