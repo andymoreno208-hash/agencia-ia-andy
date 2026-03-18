@@ -106,7 +106,9 @@ export default function Pricing() {
                 </p>
               </div>
               <a
-                href="#agendar"
+                href="https://calendly.com/andymoreno208/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`block w-full rounded-full py-3.5 text-center text-sm font-semibold transition-transform hover:scale-[1.02] ${
                   plan.highlight
                     ? "animate-glow bg-gradient-to-r from-blue-600 to-cyan-500 text-white"

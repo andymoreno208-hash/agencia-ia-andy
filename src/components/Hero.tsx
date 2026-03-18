@@ -48,7 +48,9 @@ export default function Hero() {
         </div>
 
         <a
-          href="#agendar"
+          href="https://wa.me/593959915414?text=Hola,%20quiero%20detener%20la%20fuga%20de%20leads"
+          target="_blank"
+          rel="noopener noreferrer"
           className="animate-glow inline-block rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-4 text-base font-semibold text-white transition-transform hover:scale-105 sm:text-lg"
         >
           Solicitar Auditoría de Rentabilidad (15 min)
