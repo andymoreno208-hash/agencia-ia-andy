@@ -11,9 +11,9 @@ export default function ScreenshotCards() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
+        <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-2">
           {/* WhatsApp */}
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-card-bg transition-all hover:border-cyan-500/30">
+          <div className="h-fit overflow-hidden rounded-2xl border border-white/10 bg-card-bg transition-all hover:border-cyan-500/30">
             <div className="border-b border-white/5 bg-white/[0.02] px-5 py-4">
               <h3 className="font-semibold text-white">WhatsApp</h3>
               <p className="text-sm text-text-secondary">
@@ -31,7 +31,7 @@ export default function ScreenshotCards() {
           </div>
 
           {/* Evidencia */}
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-card-bg transition-all hover:border-cyan-500/30">
+          <div className="h-fit overflow-hidden rounded-2xl border border-white/10 bg-card-bg transition-all hover:border-cyan-500/30">
             <div className="border-b border-white/5 bg-white/[0.02] px-5 py-4">
               <h3 className="font-semibold text-white">Evidencia</h3>
               <p className="text-sm text-text-secondary">
