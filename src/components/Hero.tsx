@@ -1,6 +1,3 @@
-// Reemplaza con tu ID de Loom (ej: d4f8a2b3c1e5)
-const LOOM_VIDEO_ID = process.env.NEXT_PUBLIC_LOOM_VIDEO_ID || "VIDEO_ID";
-
 export default function Hero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-20">
@@ -33,18 +30,16 @@ export default function Hero() {
         </p>
 
         {/* Loom video */}
-        <div className="mx-auto mb-10 max-w-3xl overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-2xl shadow-cyan-500/10">
-          <div className="relative aspect-video">
+        <div className="mx-auto mb-10 max-w-3xl">
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-gray-800">
             <iframe
-              src={`https://www.loom.com/embed/${LOOM_VIDEO_ID}?hide_owner=true&hide_share=true`}
+              src="AQUI_IRA_MI_LINK_DE_LOOM"
+              className="absolute top-0 left-0 w-full h-full"
+              frameBorder="0"
               allowFullScreen
-              className="absolute inset-0 h-full w-full"
-              title="Video demostrativo Vanguard"
+              title="Video Loom"
             />
           </div>
-          <p className="border-t border-white/5 px-4 py-2 text-center text-sm text-text-secondary">
-            Cómo funciona en 2 minutos
-          </p>
         </div>
 
         <a
