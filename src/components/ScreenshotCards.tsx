@@ -1,6 +1,6 @@
 export default function ScreenshotCards() {
   return (
-    <section id="capturas" className="px-6 py-16">
+    <section id="resultados" className="px-6 py-16">
       <div className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
           <h2 className="mb-3 text-2xl font-bold sm:text-3xl">
