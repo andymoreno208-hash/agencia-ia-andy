@@ -31,15 +31,13 @@ export default function Hero() {
 
         {/* Loom video */}
         <div className="mx-auto mb-10 max-w-3xl">
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-gray-800">
-            <iframe
-              src="AQUI_IRA_MI_LINK_DE_LOOM"
-              className="absolute top-0 left-0 w-full h-full"
-              frameBorder="0"
-              allowFullScreen
-              title="Video Loom"
-            />
-          </div>
+          <iframe
+            src="https://www.loom.com/embed/8d0764c0e97745f793f6a44afa25b7b7"
+            frameBorder="0"
+            allowFullScreen
+            className="w-full aspect-video rounded-2xl shadow-2xl border border-cyan-500/20"
+            title="Video Loom"
+          />
         </div>
 
         <a
