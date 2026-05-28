@@ -1,0 +1,8 @@
+extraction_method;emails_found;percentage
+mailto;36;40.4%
+plain_text;17;19.1%
+ld_json;16;18.0%
+html_raw;9;10.1%
+cf_decode;9;10.1%
+obfuscated;1;1.1%
+json_kv;1;1.1%

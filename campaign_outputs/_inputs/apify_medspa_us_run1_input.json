@@ -1,0 +1,36 @@
+{
+  "searchStringsArray": [
+    "Medical spa",
+    "Aesthetic clinic",
+    "Laser hair removal",
+    "Skin care clinic"
+  ],
+  "locationQuery": "Scottsdale, Arizona, USA",
+  "maxCrawledPlacesPerSearch": 50,
+  "language": "en",
+  "categoryFilterWords": [],
+  "searchMatching": "all",
+  "placeMinimumStars": "four",
+  "website": "withWebsite",
+  "skipClosedPlaces": true,
+  "scrapePlaceDetailPage": true,
+  "scrapeTableReservationProvider": false,
+  "includeWebResults": false,
+  "scrapeDirectories": false,
+  "maxQuestions": 0,
+  "scrapeContacts": true,
+  "scrapeSocialMediaProfiles": {
+    "facebooks": false,
+    "instagrams": false,
+    "youtubes": false,
+    "tiktoks": false,
+    "twitters": false
+  },
+  "maximumLeadsEnrichmentRecords": 0,
+  "leadsEnrichmentDepartments": [],
+  "verifyLeadsEnrichmentEmails": false,
+  "maxReviews": 0,
+  "maxImages": 0,
+  "scrapeImageAuthors": false,
+  "countryCode": "us"
+}

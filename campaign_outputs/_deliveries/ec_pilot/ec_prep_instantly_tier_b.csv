@@ -1,0 +1,6 @@
+email,company,website,phone,city,state,country,google_maps_url,lead_score,email_source,send_tier,mx_ok
+info@brinter360.com,Brinter 360,https://brinter360.com/,+593 4-390-7281,Guayaquil,,EC,https://www.google.com/maps/search/?api=1&query=Brinter%20360&query_place_id=ChIJIXPl3EdtLZARoAIOGz9fDXs,75,free_scrape,B_safe_role,True
+info@inmobiliariamastarreno.com,Inmobiliaria Mastarreno,https://www.inmobiliariamastarreno.com/,+593 96 913 9500,Guayaquil,,EC,https://www.google.com/maps/search/?api=1&query=Inmobiliaria%20Mastarreno&query_place_id=ChIJP-PxgittLZAR5D3DkvkbE5A,75,free_scrape,B_safe_role,True
+info@inmocost.com,Costa Gardens,http://www.inmocost.com/,+593 4-268-1385,Guayaquil,,EC,https://www.google.com/maps/search/?api=1&query=Costa%20Gardens&query_place_id=ChIJ086_sQ9zLZARiMyoTQ_VqrM,75,free_scrape,B_safe_role,True
+info@narcisaclub.com,NARCISA CLUB,http://www.narcisaclub.com/,+593 93 907 2931,Guayaquil,,EC,https://www.google.com/maps/search/?api=1&query=NARCISA%20CLUB&query_place_id=ChIJfbUchMYTLZARR8u_cmXJb94,75,free_scrape,B_safe_role,True
+info@renacegrupoinmobiliario.com.ec,Renace Grupo Inmobiliario,https://www.renacegrupoinmobiliario.com.ec/,+593 96 806 0919,,,,https://www.google.com/maps/search/?api=1&query=Renace%20Grupo%20Inmobiliario&query_place_id=ChIJE5oRNJdqvwoRj6FQm878sXM,25,free_scrape,B_safe_role,True
