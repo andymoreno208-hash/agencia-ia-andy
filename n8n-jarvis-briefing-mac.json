@@ -1,0 +1,429 @@
+{
+  "name": "Jarvis — Briefing Matutino Mac",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "jarvis-briefing",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-briefing",
+      "name": "Webhook Jarvis Briefing",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "jarvis-briefing-mac"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "cron-morning",
+      "name": "Cron 7am L-V",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 520]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "source",
+              "name": "source",
+              "value": "={{ $json.headers?.['user-agent']?.includes('JarvisMac') ? 'mac' : 'cron' }}",
+              "type": "string"
+            },
+            {
+              "id": "fecha",
+              "name": "fecha",
+              "value": "={{ $now.setZone('America/Guayaquil').toFormat('EEEE d MMMM yyyy, HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-context",
+      "name": "Set Contexto",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [480, 400]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "mode": "list",
+          "value": "primary"
+        },
+        "returnAll": false,
+        "limit": 10,
+        "options": {
+          "timeMin": "={{ $now.startOf('day').toISO() }}",
+          "timeMax": "={{ $now.endOf('day').toISO() }}",
+          "singleEvents": true,
+          "orderBy": "startTime"
+        }
+      },
+      "id": "google-calendar",
+      "name": "Google Calendar Hoy",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [700, 280],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "GOOGLE_CALENDAR_CREDENTIAL_ID",
+          "name": "Google Calendar — Andy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appLLgMrVXjhCJ0CJ",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBCCrqzOdbFTWeI",
+          "mode": "list",
+          "cachedResultName": "Clientes - Vanguard Scale"
+        },
+        "filterByFormula": "={Estatus} = 'Activo'",
+        "options": {}
+      },
+      "id": "airtable-clientes",
+      "name": "Airtable Clientes Activos",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [700, 520],
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "AIRTABLE_CREDENTIAL_ID",
+          "name": "Airtable — Vanguard"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "merge-data",
+      "name": "Merge Datos",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [920, 400]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "payload",
+              "name": "payload",
+              "value": "={{ JSON.stringify({ fecha: $('Set Contexto').first().json.fecha, source: $('Set Contexto').first().json.source, calendario: $('Google Calendar Hoy').all().map(e => ({ hora: e.json.start?.dateTime || e.json.start?.date, titulo: e.json.summary, ubicacion: e.json.location })), clientes_activos: $('Airtable Clientes Activos').all().length, clientes: $('Airtable Clientes Activos').all().slice(0, 8).map(c => c.json.fields?.Nombre || c.json.Nombre) }) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-payload",
+      "name": "Set Payload Briefing",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1140, 400]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Genera el briefing matutino de Jarvis con estos datos:\n\n{{ $json.payload }}",
+        "options": {
+          "systemMessage": "Eres Jarvis, el asistente personal de Andy en su Mac. Generas briefings matutinos en español, concisos y accionables (máximo 90 segundos al leer en voz alta).\n\nEstructura obligatoria:\n1. Saludo breve con la fecha\n2. Agenda del día (eventos ordenados por hora; si no hay eventos, dilo)\n3. Estado del negocio Vanguard Scale (clientes activos y prioridades)\n4. 2-3 acciones concretas para hoy\n5. Cierre motivador en una frase\n\nTono: profesional, directo, estilo socio de confianza. Sin markdown ni emojis. Texto plano listo para text-to-speech."
+        }
+      },
+      "id": "ai-briefing",
+      "name": "Jarvis AI Briefing",
+      "type": "n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [1360, 400]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "temperature": 0.4,
+          "maxTokens": 800
+        }
+      },
+      "id": "openai-model",
+      "name": "OpenAI Chat Model",
+      "type": "n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [1360, 600],
+      "credentials": {
+        "openAiApi": {
+          "id": "OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI — Vanguard"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "title",
+              "name": "title",
+              "value": "Briefing Jarvis",
+              "type": "string"
+            },
+            {
+              "id": "text",
+              "name": "text",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            },
+            {
+              "id": "generated_at",
+              "name": "generated_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-response",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1580, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-mac-request",
+              "leftValue": "={{ $('Set Contexto').first().json.source }}",
+              "rightValue": "mac",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-webhook",
+      "name": "Es petición Mac?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1800, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-response",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [2020, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.JARVIS_MAC_PUSH_URL || 'http://127.0.0.1:8765/briefing' }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ title: $json.title, text: $json.text, generated_at: $json.generated_at }) }}",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "push-mac",
+      "name": "Push a Mac (opcional)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1800, 520],
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Webhook Jarvis Briefing": {
+      "main": [
+        [
+          {
+            "node": "Set Contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron 7am L-V": {
+      "main": [
+        [
+          {
+            "node": "Set Contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Contexto": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar Hoy",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Airtable Clientes Activos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar Hoy": {
+      "main": [
+        [
+          {
+            "node": "Merge Datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable Clientes Activos": {
+      "main": [
+        [
+          {
+            "node": "Merge Datos",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Datos": {
+      "main": [
+        [
+          {
+            "node": "Set Payload Briefing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Payload Briefing": {
+      "main": [
+        [
+          {
+            "node": "Jarvis AI Briefing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jarvis AI Briefing": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Jarvis AI Briefing",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Es petición Mac?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Es petición Mac?": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Push a Mac (opcional)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Guayaquil"
+  }
+}
