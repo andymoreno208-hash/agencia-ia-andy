@@ -2,6 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+SERVE_PY="${REPO_ROOT}/scripts/jarvis_serve.py"
 
 usage() {
   cat <<EOF
@@ -11,9 +13,28 @@ Uso:
   jarvis                 Da el briefing (voz)
   jarvis briefing        Igual que arriba
   jarvis briefing text   Solo imprime el texto
+  jarvis serve           Servidor local (puerto 8765)
   jarvis install         Instala servicios en la Mac
 EOF
 }
+
+if [[ -f "$SERVE_PY" ]]; then
+  case "${1:-briefing}" in
+    briefing)
+      mode="${2:-speak}"
+      if [[ "$mode" == "text" ]]; then
+        exec python3 "$SERVE_PY" briefing --text
+      fi
+      exec python3 "$SERVE_PY" briefing
+      ;;
+    serve)
+      exec python3 "$SERVE_PY" serve
+      ;;
+    install)
+      exec python3 "$SERVE_PY" install
+      ;;
+  esac
+fi
 
 case "${1:-briefing}" in
   briefing)

@@ -3,6 +3,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 JARVIS_HOME="${HOME}/.jarvis"
 LAUNCH_AGENTS="${HOME}/Library/LaunchAgents"
 ENV_FILE="${JARVIS_HOME}/briefing.env"
@@ -10,7 +11,7 @@ ENV_EXAMPLE="${SCRIPT_DIR}/briefing.env.example"
 
 echo "==> Jarvis Mac Briefing — instalación"
 mkdir -p "$JARVIS_HOME" "$LAUNCH_AGENTS"
-chmod +x "${SCRIPT_DIR}/briefing.sh" "${SCRIPT_DIR}/listener.py" "${SCRIPT_DIR}/local-briefing.py" "${SCRIPT_DIR}/jarvis"
+chmod +x "${SCRIPT_DIR}/briefing.sh" "${SCRIPT_DIR}/listener.py" "${SCRIPT_DIR}/local-briefing.py" "${SCRIPT_DIR}/jarvis" "${SCRIPT_DIR}/doctor.sh" "${REPO_ROOT}/scripts/jarvis_serve.py"
 
 if [[ ! -f "$ENV_FILE" ]]; then
   cp "$ENV_EXAMPLE" "$ENV_FILE"
@@ -44,7 +45,8 @@ launchctl bootstrap "gui/$(id -u)" "${LAUNCH_AGENTS}/com.vanguard.jarvis.briefin
 echo ""
 echo "Listo. Prueba ahora:"
 echo "  jarvis"
-echo "  # o: ${SCRIPT_DIR}/briefing.sh"
+echo "  python3 ${REPO_ROOT}/scripts/jarvis_serve.py briefing"
+echo "  ${SCRIPT_DIR}/doctor.sh"
 echo ""
 echo "Atajo recomendado (Atajos de macOS):"
 echo "  Acción: Ejecutar script de shell → ${SCRIPT_DIR}/briefing.sh"
