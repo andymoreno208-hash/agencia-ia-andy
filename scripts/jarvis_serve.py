@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
-"""Jarvis en Mac: briefing por voz + servidor local para push de n8n."""
+"""Jarvis en Mac: servidor local + briefing por voz."""
 
 from __future__ import annotations
 
 import argparse
-import importlib.util
 import json
 import os
+import signal
 import subprocess
 import sys
+import webbrowser
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 JARVIS_DIR = ROOT / "jarvis"
-LOCAL_BRIEFING = JARVIS_DIR / "local-briefing.py"
-BRIEFING_SH = JARVIS_DIR / "briefing.sh"
+PID_FILE = Path.home() / ".jarvis" / "serve.pid"
+LOG_FILE = Path.home() / ".jarvis" / "briefing.log"
 
 HOST = os.environ.get("JARVIS_LISTENER_HOST", "127.0.0.1")
-PORT = int(os.environ.get("JARVIS_LISTENER_PORT", "8765"))
+DEFAULT_PORT = int(os.environ.get("JARVIS_LISTENER_PORT", "8765"))
 VOICE = os.environ.get("JARVIS_VOICE", "Monica")
-LOG_FILE = Path(os.environ.get("JARVIS_LOG", Path.home() / ".jarvis" / "briefing.log"))
+TZ = ZoneInfo(os.environ.get("JARVIS_TZ", "America/Guayaquil"))
+OWNER = os.environ.get("JARVIS_OWNER", "Andy")
 
 
 def require_mac() -> None:
@@ -51,31 +55,125 @@ def speak(text: str) -> None:
     subprocess.run(["say", "-v", VOICE, "-r", "190", text], check=True)
 
 
-def load_local_briefing() -> dict[str, str]:
-    spec = importlib.util.spec_from_file_location("local_briefing", LOCAL_BRIEFING)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"No encuentro {LOCAL_BRIEFING}")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.build_briefing()
+def run_applescript(script: str) -> str:
+    try:
+        result = subprocess.run(
+            ["osascript", "-e", script],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return ""
 
 
-def run_briefing_shell(mode: str) -> int:
-    if not BRIEFING_SH.is_file():
-        raise FileNotFoundError(f"No encuentro {BRIEFING_SH}")
-    result = subprocess.run([str(BRIEFING_SH), mode], check=False)
-    return result.returncode
+def calendar_events() -> list[str]:
+    script = r'''
+set startOfDay to current date
+set hours of startOfDay to 0
+set minutes of startOfDay to 0
+set seconds of startOfDay to 0
+set endOfDay to startOfDay + (1 * days)
+set lines to {}
+tell application "Calendar"
+  repeat with cal in calendars
+    try
+      repeat with evt in (every event of cal whose start date ≥ startOfDay and start date < endOfDay)
+        set end of lines to ((time string of (start date of evt)) & " — " & (summary of evt))
+      end repeat
+    end try
+  end repeat
+end tell
+if (count of lines) is 0 then return ""
+set AppleScript's text item delimiters to linefeed
+return lines as text
+'''
+    raw = run_applescript(script)
+    if not raw:
+        return []
+    return [line.strip() for line in raw.splitlines() if line.strip()]
 
 
-def deliver_briefing(*, text_only: bool = False, speak_aloud: bool = True) -> dict[str, str]:
+def reminders_today() -> list[str]:
+    script = r'''
+set lines to {}
+tell application "Reminders"
+  repeat with lst in lists
+    repeat with r in (reminders of lst whose completed is false)
+      if due date of r is not missing value then
+        set d to due date of r
+        set todayStart to current date
+        set time of todayStart to 0
+        set todayEnd to todayStart + (1 * days)
+        if d ≥ todayStart and d < todayEnd then
+          set end of lines to (name of r as text)
+        end if
+      end if
+    end repeat
+  end repeat
+end tell
+if (count of lines) is 0 then return ""
+set AppleScript's text item delimiters to linefeed
+return lines as text
+'''
+    raw = run_applescript(script)
+    if not raw:
+        return []
+    return [line.strip() for line in raw.splitlines() if line.strip()]
+
+
+def build_briefing(*, sync: bool = True) -> dict[str, str]:
+    now = datetime.now(TZ)
+    weekdays = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    months = [
+        "enero", "febrero", "marzo", "abril", "mayo", "junio",
+        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+    ]
+    fecha = f"{weekdays[now.weekday()]}, {now.day} de {months[now.month - 1]} de {now.year}"
+
+    events = calendar_events() if sync else []
+    tasks = reminders_today() if sync else []
+
+    parts = [f"Buenos días, {OWNER}. Hoy es {fecha}.", "", "Agenda de hoy:"]
+    if events:
+        parts.extend(f"- {event}" for event in events[:8])
+    else:
+        parts.append("- No tienes eventos en el calendario. Buen día para trabajo profundo.")
+
+    parts.extend(["", "Recordatorios para hoy:"])
+    if tasks:
+        parts.extend(f"- {task}" for task in tasks[:6])
+    else:
+        parts.append("- Sin recordatorios pendientes con fecha de hoy.")
+
+    parts.extend(
+        [
+            "",
+            "Prioridades Vanguard Scale:",
+            "- Revisar leads nuevos y responder en menos de 3 minutos.",
+            "- Avanzar onboarding de clientes activos.",
+            "- Una acción de crecimiento: contenido, outreach o mejora del funnel.",
+            "",
+            "Buen día. Estoy aquí cuando necesites el siguiente briefing.",
+        ]
+    )
+
+    return {
+        "title": "Briefing Jarvis",
+        "text": "\n".join(parts),
+        "generated_at": now.isoformat(),
+        "source": "local" if sync else "local-no-sync",
+    }
+
+
+def deliver_briefing(*, text_only: bool = False, speak_aloud: bool = True, sync: bool = True) -> dict[str, str]:
     require_mac()
-    payload = load_local_briefing()
-    title = payload.get("title", "Briefing Jarvis")
-    text = str(payload.get("text", "")).strip()
-    if not text:
-        raise RuntimeError("Briefing vacío")
+    payload = build_briefing(sync=sync)
+    title = payload["title"]
+    text = payload["text"].strip()
+    log(f"Briefing generado ({len(text)} chars, sync={sync})")
 
-    log(f"Briefing generado ({len(text)} chars)")
     if text_only:
         print(f"{title}\n\n{text}")
         return payload
@@ -86,18 +184,42 @@ def deliver_briefing(*, text_only: bool = False, speak_aloud: bool = True) -> di
     return payload
 
 
+def stop_server(port: int) -> int:
+    stopped = False
+    if PID_FILE.exists():
+        try:
+            pid = int(PID_FILE.read_text().strip())
+            os.kill(pid, signal.SIGTERM)
+            stopped = True
+            log(f"Detenido PID {pid}")
+        except (ProcessLookupError, ValueError, PermissionError):
+            pass
+        PID_FILE.unlink(missing_ok=True)
+
+    result = subprocess.run(["lsof", "-ti", f"tcp:{port}"], capture_output=True, text=True, check=False)
+    for pid in result.stdout.split():
+        if pid.strip():
+            subprocess.run(["kill", pid.strip()], check=False)
+            stopped = True
+
+    if stopped:
+        print(f"Jarvis detenido (puerto {port}).")
+        return 0
+    print(f"No había Jarvis corriendo en el puerto {port}.")
+    return 0
+
+
 class JarvisHandler(BaseHTTPRequestHandler):
+    server_port: int = DEFAULT_PORT
+
     def do_GET(self) -> None:  # noqa: N802
-        if self.path not in ("/briefing", "/health"):
-            self.send_error(404, "Not found")
-            return
-
         if self.path == "/health":
-            self._json_response({"ok": True})
+            self._json({"ok": True})
             return
-
-        payload = deliver_briefing(text_only=True, speak_aloud=False)
-        self._json_response(payload)
+        if self.path == "/briefing":
+            self._json(deliver_briefing(text_only=True, speak_aloud=False))
+            return
+        self.send_error(404, "Not found")
 
     def do_POST(self) -> None:  # noqa: N802
         if self.path != "/briefing":
@@ -106,7 +228,6 @@ class JarvisHandler(BaseHTTPRequestHandler):
 
         length = int(self.headers.get("Content-Length", "0"))
         body = self.rfile.read(length)
-
         if body:
             try:
                 payload = json.loads(body.decode("utf-8"))
@@ -116,20 +237,19 @@ class JarvisHandler(BaseHTTPRequestHandler):
                 self.send_error(400, "Invalid JSON")
                 return
         else:
-            payload = load_local_briefing()
-            text = str(payload.get("text", "")).strip()
-            title = str(payload.get("title", "Briefing Jarvis"))
+            payload = build_briefing()
+            text = payload["text"]
+            title = payload["title"]
 
         if not text:
             self.send_error(400, "Missing text")
             return
 
-        log(f"POST /briefing ({len(text)} chars)")
         notify(title, "Jarvis tiene tu briefing.")
         speak(text)
-        self._json_response({"ok": True, "title": title})
+        self._json({"ok": True, "title": title})
 
-    def _json_response(self, payload: dict) -> None:
+    def _json(self, payload: dict) -> None:
         data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -141,54 +261,70 @@ class JarvisHandler(BaseHTTPRequestHandler):
         log(format % args)
 
 
-def serve() -> int:
+def serve(port: int, *, open_browser: bool = False) -> int:
     require_mac()
-    server = ThreadingHTTPServer((HOST, PORT), JarvisHandler)
-    log(f"Escuchando en http://{HOST}:{PORT}")
-    print(f"Jarvis escuchando en http://{HOST}:{PORT}/briefing")
+    stop_server(port)
+
+    server = ThreadingHTTPServer((HOST, port), JarvisHandler)
+    PID_FILE.parent.mkdir(parents=True, exist_ok=True)
+    PID_FILE.write_text(str(os.getpid()))
+    url = f"http://{HOST}:{port}/briefing"
+    log(f"Escuchando en {url}")
+    print(f"Jarvis escuchando en {url}")
+
+    if open_browser:
+        webbrowser.open(url)
+
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        log("Detenido")
+        log("Detenido por teclado")
         return 0
+    finally:
+        PID_FILE.unlink(missing_ok=True)
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Jarvis — briefing y servidor en Mac")
-    sub = parser.add_subparsers(dest="command")
-
-    briefing = sub.add_parser("briefing", help="Genera y habla el briefing")
-    briefing.add_argument("--text", action="store_true", help="Solo imprimir texto")
-    briefing.add_argument("--notify", action="store_true", help="Solo notificación")
-
-    sub.add_parser("serve", help="Servidor local para push de n8n")
-    sub.add_parser("install", help="Instala launchd y comando jarvis")
+    parser.add_argument(
+        "command",
+        nargs="?",
+        choices=("briefing", "serve", "install"),
+        help="briefing: hablar ahora | serve: servidor | install: launchd",
+    )
+    parser.add_argument("--briefing", action="store_true", help="Genera y habla el briefing")
+    parser.add_argument("--text", action="store_true", help="Solo imprimir texto del briefing")
+    parser.add_argument("--no-sync", action="store_true", help="Briefing sin leer Calendario/Recordatorios")
+    parser.add_argument("--open", action="store_true", help="Abrir /briefing en el navegador al iniciar")
+    parser.add_argument("--stop", action="store_true", help="Detener servidor Jarvis")
+    parser.add_argument("--port", type=int, default=DEFAULT_PORT, help=f"Puerto (default {DEFAULT_PORT})")
 
     args = parser.parse_args(argv)
-    command = args.command or "briefing"
+    sync = not args.no_sync
 
-    if command == "install":
-        install_sh = JARVIS_DIR / "install.sh"
-        if not install_sh.is_file():
-            raise SystemExit(f"No encuentro {install_sh}. Haz git pull origin main")
-        return subprocess.call([str(install_sh)])
+    if args.stop:
+        return stop_server(args.port)
 
-    if command == "serve":
-        return serve()
-
-    if command == "briefing":
-        if args.text:
-            deliver_briefing(text_only=True, speak_aloud=False)
-            return 0
-        if args.notify:
-            payload = deliver_briefing(text_only=True, speak_aloud=False)
-            notify(payload["title"], payload["text"][:220])
-            return 0
-        deliver_briefing()
+    if args.briefing or args.command == "briefing":
+        deliver_briefing(text_only=args.text, speak_aloud=not args.text, sync=sync)
         return 0
 
-    parser.print_help()
-    return 1
+    if args.command == "install":
+        install_sh = JARVIS_DIR / "install.sh"
+        if not install_sh.is_file():
+            raise SystemExit(
+                "No encuentro scripts/jarvis/install.sh.\n"
+                "Primero sincroniza el repo:\n"
+                "  git fetch origin main && git merge origin/main"
+            )
+        return subprocess.call([str(install_sh)])
+
+    if args.command == "serve" or args.open:
+        return serve(args.port, open_browser=args.open)
+
+    # Compatibilidad: sin argumentos → briefing (lo que pides al decir "jarvis")
+    deliver_briefing(sync=sync)
+    return 0
 
 
 if __name__ == "__main__":
