@@ -10,12 +10,17 @@ ENV_EXAMPLE="${SCRIPT_DIR}/briefing.env.example"
 
 echo "==> Jarvis Mac Briefing — instalación"
 mkdir -p "$JARVIS_HOME" "$LAUNCH_AGENTS"
-chmod +x "${SCRIPT_DIR}/briefing.sh" "${SCRIPT_DIR}/listener.py"
+chmod +x "${SCRIPT_DIR}/briefing.sh" "${SCRIPT_DIR}/listener.py" "${SCRIPT_DIR}/local-briefing.py" "${SCRIPT_DIR}/jarvis"
 
 if [[ ! -f "$ENV_FILE" ]]; then
   cp "$ENV_EXAMPLE" "$ENV_FILE"
-  echo "Creado $ENV_FILE — edítalo con tu URL de n8n antes de usar Jarvis."
+  echo "Creado $ENV_FILE (opcional)."
 fi
+
+BIN_DIR="${HOME}/.local/bin"
+mkdir -p "$BIN_DIR"
+ln -sf "${SCRIPT_DIR}/jarvis" "${BIN_DIR}/jarvis"
+echo "Comando global: ${BIN_DIR}/jarvis (asegúrate de que ~/.local/bin esté en tu PATH)"
 
 install_plist() {
   local template="$1"
@@ -38,7 +43,8 @@ launchctl bootstrap "gui/$(id -u)" "${LAUNCH_AGENTS}/com.vanguard.jarvis.briefin
 
 echo ""
 echo "Listo. Prueba ahora:"
-echo "  ${SCRIPT_DIR}/briefing.sh"
+echo "  jarvis"
+echo "  # o: ${SCRIPT_DIR}/briefing.sh"
 echo ""
 echo "Atajo recomendado (Atajos de macOS):"
 echo "  Acción: Ejecutar script de shell → ${SCRIPT_DIR}/briefing.sh"

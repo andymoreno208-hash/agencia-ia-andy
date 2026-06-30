@@ -10,13 +10,17 @@ if [[ -f "$ENV_FILE" ]]; then
   source "$ENV_FILE"
 fi
 
-: "${N8N_BRIEFING_WEBHOOK_URL:?Configura N8N_BRIEFING_WEBHOOK_URL en $ENV_FILE}"
 VOICE="${JARVIS_VOICE:-Monica}"
 CACHE_DIR="${JARVIS_CACHE_DIR:-$HOME/.jarvis/cache}"
 CACHE_FILE="$CACHE_DIR/last-briefing.json"
 LOG_FILE="${JARVIS_LOG:-$HOME/.jarvis/briefing.log}"
 
 mkdir -p "$CACHE_DIR" "$(dirname "$LOG_FILE")"
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+  echo "Jarvis briefing requiere macOS (voz y calendario nativos)." >&2
+  exit 1
+fi
 
 log() {
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >>"$LOG_FILE"
@@ -33,13 +37,34 @@ speak() {
   say -v "$VOICE" -r 190 "$text"
 }
 
-fetch_briefing() {
-  local response
-  response="$(curl -fsSL \
+fetch_briefing_n8n() {
+  curl -fsSL \
     -H "User-Agent: JarvisMac/1.0" \
     -H "Accept: application/json" \
     --max-time 120 \
-    "$N8N_BRIEFING_WEBHOOK_URL")"
+    "${N8N_BRIEFING_WEBHOOK_URL}"
+}
+
+fetch_briefing_local() {
+  "${SCRIPT_DIR}/local-briefing.py"
+}
+
+fetch_briefing() {
+  local response=""
+
+  if [[ -n "${N8N_BRIEFING_WEBHOOK_URL:-}" ]]; then
+    if response="$(fetch_briefing_n8n)"; then
+      log "Briefing obtenido desde n8n"
+      echo "$response" >"$CACHE_FILE"
+      echo "$response"
+      return 0
+    fi
+    log "n8n no disponible, usando briefing local"
+  else
+    log "Sin URL de n8n, usando briefing local"
+  fi
+
+  response="$(fetch_briefing_local)"
   echo "$response" >"$CACHE_FILE"
   echo "$response"
 }
@@ -66,8 +91,8 @@ main() {
   notify "Jarvis" "Preparando tu briefing..."
 
   if ! json="$(fetch_briefing)"; then
-    log "Error al obtener briefing desde n8n"
-    notify "Jarvis" "No pude conectar con n8n. Revisa la URL del webhook."
+    log "Error al generar briefing"
+    notify "Jarvis" "No pude generar el briefing."
     exit 1
   fi
 
@@ -76,7 +101,7 @@ main() {
 
   if [[ -z "$text" ]]; then
     log "Respuesta vacía: $json"
-    notify "Jarvis" "El briefing llegó vacío. Revisa el workflow en n8n."
+    notify "Jarvis" "El briefing llegó vacío."
     exit 1
   fi
 
